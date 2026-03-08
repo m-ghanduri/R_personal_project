@@ -1,0 +1,109 @@
+#this script assumes tidyverse is already installed and loaded...
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes) #offers colorblind safe palette
+
+#this ggplot uses the penguins tibble as data
+#it uses the aesthetic function in the mapping function in the ggplot function
+#to map it all out 
+#geom point adds the layer of points
+#geom smooth adds a curve to the points
+#since the points are separated by color in the mapping function
+#, geom_smooth will act on each grouping independently
+
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g, color = species)
+  ) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+
+#this ggplot makes a whole line for all the data points while keeping
+#the data points separately colored and identifiable
+#this is because the aesthetic function is called under the 
+#geom_point function here
+#we also add the shape function under the aes function to 
+#change the shape of the points to make it more viewer friendly
+
+ggplot(
+  data = penguins,
+  mapping = aes(x = flipper_length_mm, y = body_mass_g)
+) +
+  geom_point(mapping = aes(color = species, shape = species)) +
+  geom_smooth(method = "lm")
+
+#the rest of this script is to answer the exercises in section 1.2.5
+
+#How many rows are in penguins? How many columns?
+?penguins
+view(penguins)
+glimpse(penguins)
+#there are three different ways to find out there are 344 entries!
+
+#Make a scatterplot of bill_depth_mm vs. bill_length_mm. That is, 
+#make a scatterplot with bill_depth_mm on the y-axis and bill_length_mm on the 
+#x-axis. 
+#Describe the relationship between these two variables.
+
+#this first plot compares the trend within each species with one another
+ggplot(
+  data = penguins,
+  mapping = aes(x = bill_length_mm, y = bill_depth_mm, color = species)
+  ) + 
+  geom_point() +
+  geom_smooth(method = "lm")
+
+#this second plot lumps all the data points together to look for a trend
+ggplot(
+  data = penguins,
+  mapping = aes(x = bill_length_mm, y = bill_depth_mm)
+) + 
+  geom_point(mapping = aes(color = species)) +
+  geom_smooth(method = "lm")
+
+#we can see that the first plot fits better than the second one and it seems 
+#that bill depth is loosely positively correlated with bill length for all 
+#however, each species has a much different range and seem to cluster independently
+
+#What happens if you make a scatterplot of species vs. bill_depth_mm? 
+#What might be a better choice of geom?
+
+#this one uses geom_points; it looks kinda like a boxplot...
+ggplot(
+  data = penguins,
+  mapping = aes(x = species, y = bill_depth_mm)
+) + 
+  geom_point()
+
+#this one uses geom_boxplot; it looks like it fits better...
+ggplot(
+  data = penguins,
+  mapping = aes(x = species, y = bill_depth_mm)
+) + 
+  geom_boxplot()
+
+#Why does the following give an error and how would you fix it?
+#ggplot(data = penguins) + 
+#geom_point()
+
+#the issue is that there are no variables assigned to x or y values...
+
+#What does the na.rm argument do in geom_point()? 
+#What is the default value of the argument? 
+#Create a scatterplot where you successfully use this argument set to TRUE.
+
+ggplot(
+  data = penguins,
+  mapping = aes(x = bill_length_mm, y = bill_depth_mm)
+) + 
+  geom_point(na.rm = T)
+#na.rm removes the error message for missing variables but still removes the values
+
+#recreate a visualization
+
+ggplot(data = penguins,
+       mapping = aes(x = flipper_length_mm, y = body_mass_g)
+       ) + 
+  geom_point(mapping = aes(color = bill_depth_mm)) + 
+  geom_smooth(method = NULL)
+#this looks exactly the same :)
