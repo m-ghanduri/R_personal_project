@@ -1,0 +1,60 @@
+#1.4.3
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+
+#make a bar plot of species of penguins where you assign species
+#to the y aesthetic
+
+ggplot(penguins, aes(x=species)) +
+  geom_bar()
+
+ggplot(penguins, aes(y=species)) + 
+  geom_bar()
+
+#this basically just rotates the bar graph
+
+#How are the following two plots different? 
+#Which aesthetic, color or fill, is more useful for changing the color of bars?
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar(color = "red")
+
+ggplot(penguins, aes(x = species)) +
+  geom_bar(fill = "red")
+
+#the second is more useful for changing the colors
+#the color option just changes the color of the border of the bars
+
+#What does the bins argument in geom_histogram() do?
+
+#the bins argument changes the size of the bins to put each value in
+#when making a histogram...
+
+#Make a histogram of the carat variable in the diamonds dataset 
+#that is available when you load the tidyverse package. 
+#Experiment with different binwidths. 
+#What binwidth reveals the most interesting patterns?
+
+ggplot(diamonds, aes(x = carat)) + 
+  geom_histogram(binwidth = 0.1)
+
+ggplot(diamonds, aes(x = carat)) +
+  geom_histogram(binwidth = 0.2)
+
+ggplot(diamonds, aes(x = carat)) +
+  geom_histogram(binwidth = 0.4)
+
+ggplot(diamonds, aes(x = carat)) +
+  geom_histogram(binwidth = 0.8)
+
+#I think that the best binwidth might be between 0.2 and 0.4
+#but I think this basically shows that there is a right skew 
+#of diamond weight when it comes to distribution
+
+
+#this plot is a density plot and its supposed to be the most accurate
+#but accuracy doesnt usually mean the best model...
+ggplot(diamonds, aes(x = carat)) +
+  geom_density() +
+  scale_x_continuous(breaks = seq(0.2, 3, 0.2))
