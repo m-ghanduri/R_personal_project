@@ -1,0 +1,84 @@
+# 1_5_5
+library(tidyverse)
+library(palmerpenguins)
+library(ggthemes)
+
+#The mpg data frame that is bundled with the ggplot2 package contains 
+#234 observations collected by the US Environmental Protection Agency on 38 car models. 
+#Which variables in mpg are categorical? Which variables are numerical? (
+#Hint: Type ?mpg to read the documentation for the dataset.) 
+#How can you see this information when you run mpg?
+mpg
+
+#The categorical variables are those in which show the variable to be a <chr>
+#when you just send mpg as a command
+
+#Make a scatterplot of hwy vs. displ using the mpg data frame. 
+#Next, map a third, numerical variable to color, then size, then both color and size, then shape. 
+#How do these aesthetics behave differently for categorical vs. numerical variables?
+
+ggplot(mpg, aes(x = hwy, y = displ)) + 
+  geom_point()
+
+#cyl mapped to colour
+ggplot(mpg, aes(x = hwy, y = displ)) + 
+  geom_point(aes(colour = cyl))
+
+#cyl mapped to size
+ggplot(mpg, aes(x = hwy, y = displ)) + 
+  geom_point(aes(size = cyl))
+
+#cyl mapped to both size and colour
+ggplot(mpg, aes(x = hwy, y = displ)) + 
+  geom_point(aes(colour = cyl, size = cyl))
+
+#cyl attempted to map to shape; this doesn't work because I'm trying to 
+#map a continous variable on a discrete mapping aesthetic
+ggplot(mpg, aes(x = hwy, y = displ)) + 
+  geom_point(aes(shape = cyl))
+
+#In the scatterplot of hwy vs. displ, what happens if you map a third variable to linewidth?
+ggplot(mpg, aes(x = hwy, y = displ, linewidth = manufacturer)) +
+  geom_point()
+#nothing seems to happen... whether the variable is categorical or a number
+
+#Make a scatterplot of bill_depth_mm vs. bill_length_mm and color the points by species.
+#What does adding coloring by species reveal about the relationship between these two variables? 
+#What about faceting by species?
+
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm, colour = species)) + 
+  geom_point()
+
+ggplot(penguins, aes(x = bill_depth_mm, y = bill_length_mm, colour = species)) + 
+  geom_point() + 
+  facet_wrap(~species)
+
+#the trend is the same for both faceting and not faceting by species, which is that
+#there is a positive trend with seemingly around the same slope between bill depth
+#and length in all three species. However, the y intercept is different and is shown
+#better in a scatterplot with all three in one graph rather than faceting
+
+
+#Why does the following yield two separate legends? How would you fix it to combine the two legends?
+
+ggplot(
+  data = penguins,
+  mapping = aes(
+    x = bill_length_mm, y = bill_depth_mm, 
+    color = species, shape = species
+  )
+) +
+  geom_point() +
+  labs(color = "Species")
+
+# you can fix it by adding the shape variable to species as well in the label
+ggplot(
+     data = penguins,
+     mapping = aes(
+         x = bill_length_mm, y = bill_depth_mm
+     )
+ ) +
+     geom_point(aes(color = species, shape = species)) +
+     labs(color = "Species", shape = "Species")
+
+#one more question to answer!!
