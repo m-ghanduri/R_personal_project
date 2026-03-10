@@ -1,0 +1,47 @@
+#chapter 3: data transformation
+library(nycflights13)
+library(tidyverse)
+
+#take a look at the flights tibble
+glimpse(flights)
+print(flights, width = Inf)
+
+#dplyr (data plier) is used to work with and manipulate
+#the large datasets we work with in R
+#it usually has a dataframe as an input
+#a set of columns or rows to work on and what operations to use
+#then an output dataframe
+
+#the first operation we will study is filter()
+#it allows you to keep rows based on the value of the columns
+
+#keyboard shortcut for piping is ctrl + shift + M
+#this command basically filtered out all the flights
+#that were delayed less than or equal to 120 minutes
+flights |>
+  filter(dep_delay > 120)
+
+flights %>% 
+  filter(dep_delay > 120)
+
+#this function filters out all flights that were not
+#on january 1st
+flights %>% 
+  filter(month == 1 & day == 1)
+
+#This function only includes months that came from the
+#january or february
+flights %>% 
+  filter(month == 1 | month == 2)
+
+#another way to do this is use the %in% operator
+flights %>% 
+  filter(month %in% c(1, 2)) #here we combined the values into a vector using c()
+
+#to save the new dataframes you have to backpipe it!
+jan_and_feb <-
+  flights %>% 
+  filter(month %in% c(1, 2))
+view(jan_and_feb)
+
+#the next operator is arrange()
