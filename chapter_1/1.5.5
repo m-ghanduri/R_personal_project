@@ -81,4 +81,14 @@ ggplot(
      geom_point(aes(color = species, shape = species)) +
      labs(color = "Species", shape = "Species")
 
-#one more question to answer!!
+#Create the two following stacked bar plots. 
+#Which question can you answer with the first one? 
+#Which question can you answer with the second one?
+ggplot(penguins, aes(x = island, fill = species)) +
+  geom_bar(position = "fill")
+ggplot(penguins, aes(x = species, fill = island)) +
+  geom_bar(position = "fill")
+
+#the first one seems to be answering, which species live on each island and 
+#what are their relative ratios on each island?
+#the second one seems to be answering, how are the species geographically distributed?
