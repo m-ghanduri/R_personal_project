@@ -45,3 +45,34 @@ jan_and_feb <-
 view(jan_and_feb)
 
 #the next operator is arrange()
+#arrange() arranges the rows in order based on selected columns
+
+#this function arranges flights based on year, then month, then day, then departure time
+flights %>% 
+  arrange(year, month, day, dep_time)
+
+#to change it to descending order, use desc()!
+flights %>% 
+  arrange(desc(dep_delay))
+
+#distinct() finds all the distinct rows (rows that are not repeated)
+#you can combine multiple columns/variables to search for distinct combinations
+
+#to remove all duplicate rows:
+flights %>% 
+  distinct()
+
+#to find all unique origin and destination combos
+flights %>% 
+  distinct(origin, dest)
+#this however removes all other columns...
+#if you want to keep the other columns/variables use the .keep_all = TRUE option
+flights %>% 
+  distinct(origin, dest, .keep_all = T)
+#remember that this removes all other copies other than the first one
+
+#however, if you want to also know the count of distinct combos 
+#you can use count()
+flights %>% 
+  count(origin, dest, sort = T) #sort just shows the combos in descending count order
+
