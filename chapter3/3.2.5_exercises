@@ -1,0 +1,34 @@
+#3.2.5 exercises
+
+#In a single pipeline for each condition, find all flights that meet the condition:
+
+#   Had an arrival delay of two or more hours
+pingas <- flights %>% 
+  filter(arr_delay >= 120)
+
+#   Flew to Houston (IAH or HOU)
+pingas <- flights %>% 
+  filter(dest %in% c("IAH", "HOU"))
+
+#   Were operated by United, American, or Delta
+pingas <- flights %>% 
+  filter(carrier %in% c("AA", "DL", "UA"))
+
+#   Departed in summer (July, August, and September)
+pingas <- flights %>% 
+  filter(month %in% c(7, 8, 9))
+
+#   Arrived more than two hours late but didn’t leave late
+pingas <- flights %>% 
+  filter(dep_delay <= 0, arr_delay > 120)
+
+#   Were delayed by at least an hour, but made up over 30 minutes in flight
+pingas <- flights %>% 
+  filter(dep_delay >= 60, arr_delay <= 30)
+
+#Sort flights to find the flights with the longest departure delays. 
+#Find the flights that left earliest in the morning.
+flights %>% 
+  arrange(desc(dep_delay))
+flights %>% 
+  arrange(dep_time)
