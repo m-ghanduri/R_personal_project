@@ -32,3 +32,22 @@ flights %>%
   arrange(desc(dep_delay))
 flights %>% 
   arrange(dep_time)
+#Was there a flight on every day of 2013?
+flights %>% 
+  distinct(month, day)
+#there are 365 entries... meaning that there was a flight on every day
+
+#Which flights traveled the farthest distance? Which traveled the least distance?
+pingas <- flights %>% 
+  arrange(distance)
+#least distance was 17 miles
+
+pingas <- flights %>% 
+  arrange(desc(distance))
+#greatest distance was 4983 miles
+
+#Does it matter what order you used filter() and arrange() if you’re using both? Why/why not? 
+  #Think about the results and how much work the functions would have to do.
+
+#doing filter first is better because it makes arranging much quicker since you work
+#with less data
