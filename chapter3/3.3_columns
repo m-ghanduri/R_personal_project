@@ -1,0 +1,72 @@
+#chapter 3.3: columns and column "verbs"
+
+#there are 4 main "verbs":
+#mutate, select, rename, and relocate
+
+#mutate is used to create new columns based on functions that use values from other columns
+#for example, we can use distance and air_time to calculate and make an avg speed column
+
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60
+  )
+
+#if we want to add these columns to the left side, we can use the .before argument:
+
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time *60,
+    .before = 1
+  )
+
+#you can use a number or column to refer to which column you want to place the new 
+#columns before (.before = 1, or .before = year)
+
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .before = year
+  )
+
+#you can also use the argument .after to do the same thing basically...
+#you can use the .keep argument to decide to only keep certain columns
+#.keep can be used with the string "used" to only keep columns used in functions
+#used to make the new columns
+
+flights %>% 
+  mutate(
+    gain = dep_delay - arr_delay,
+    speed = distance / air_time * 60,
+    .keep = "used",
+    .before = air_time #this places the new columns right in the middle of table
+  )
+
+#select can be used to select a number of columns based on different notations
+#you can use commas for specific columns
+#you can use colons for ranges of columns
+#you can use ! or - to exclude columns; for example !dep_delay or -arr_delay
+#they recommend using ! instead of -
+
+#you can also select columns based on variable characteristic or naming patterns
+flights %>% 
+  select(where(is.character))
+
+flights %>% 
+  select(where(is.integer))
+
+flights %>% 
+  select(where(is.double))
+
+#there are a number of other options to use as well, and you can check them on the textbook
+
+#you can also use select() to rename columns; the new name on the left, old on the right
+flights %>% 
+  select(tail_num = tailnum) #remember that it will only show the column selected...
+
+#to actually rename columns and keep all the dataframes, use rename(), it has the same format
+
+#relocate() can be used to relocate variable columns... and can be combined with 
+#arguments learned beforehand such as .before, .after, column:column, where(is.integer), etc.
